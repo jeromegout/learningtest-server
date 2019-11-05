@@ -6,21 +6,33 @@ const Schema = gql`
     name: String!
     email: String!
     password: String!
+    avatar: String!
+  }
+
+  type AuthData {
+    userName: String
+    token: String
   }
 
   type Query {
     users: [User!]!
-    login(nameOrEmail: String!, password: String!): User
+    login(input: ConnectionInput): AuthData
   }
 
-  input UserInput {
-    name: String!
+  input ConnectionInput {
     email: String!
     password: String!
   }
 
+  input UserInput {
+    name: String
+    email: String
+    avatar: String
+  }
+
   type Mutation {
-    register(input: UserInput!): User
+    registerUser(input: ConnectionInput!): User
+    updateUser(userId: ID!, input: UserInput!): User
   }
 `;
 
