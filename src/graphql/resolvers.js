@@ -1,4 +1,6 @@
-const Datastore = require("nedb-promises");
+const Datastore = require("nedb-promises")
+const bcrypt = require('bcrypt')
+
 let db = Datastore.create({
   filename: "./db/users.db",
   autoload: true
@@ -7,21 +9,37 @@ let db = Datastore.create({
 const resolvers = {
   Query: {
     users: async () => {
-      const users = await db.find({}).catch(reason => {
-      console.log(users);
-      })
-    }
+      return (await db.find({}).catch(reason => {throw Error(reason)})) || []
+    },
+    login: async (_, {nameOrEmail, password}) => {
+      let user
+      if(nameOrEmail.indexOf("@") > 0) {
+        user  = await db.findOne({email:nameOrEmail})
+      } else {
+        user = await db.findOne({name: nameOrEmail})
+      }
+      if(!user) {
+        throw Error('Invalid name or passord, please retry.')
+      }
+      
+      const ok = await bcrypt.compare(password, user.password)
+      if(!ok) {
+        throw Error('Invalid name or passord, please retry.')
+      }
+
+      return user
+    },
   },
 
   Mutation: {
-    signIn: async (parent, arg) => {
+    register: async (parent, arg) => {
+      const password = await bcrypt.hash(arg.input.password, 12)
       const user = {
-        name: arg.userInput.name,
-        email: arg.userInput.email,
-        password: arg.userInput.password
+        name: arg.input.name,
+        email: arg.input.email,
+        password
       }
-      console.log(user)
-      return await db.insert(user);
+      return db.insert(user).catch(reason => {throw Error(reason)});
     }
   }
 };

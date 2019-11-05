@@ -1,4 +1,4 @@
-const { gql } = require('apollo-server');
+const { gql } = require("apollo-server");
 
 const Schema = gql`
   type User {
@@ -9,7 +9,8 @@ const Schema = gql`
   }
 
   type Query {
-    users: [User!]
+    users: [User!]!
+    login(nameOrEmail: String!, password: String!): User
   }
 
   input UserInput {
@@ -19,7 +20,7 @@ const Schema = gql`
   }
 
   type Mutation {
-    signIn(input: UserInput!): User
+    register(input: UserInput!): User
   }
 `;
 
