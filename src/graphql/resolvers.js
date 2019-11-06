@@ -39,6 +39,7 @@ const resolvers = {
 
       return {
         userName: user.name,
+        userAvatar: user.avatar,
         token,
       };
     },
@@ -52,9 +53,10 @@ const resolvers = {
       }
       const password = await bcrypt.hash(input.password, 12);
       const user = User.createUser(input.email, password);
-      return db.insert(user).catch(reason => {
+      await db.insert(user).catch(reason => {
         throw Error(reason);
       });
+      return { ...user, password: "" };
     },
     updateUser: async (_, { userId, input }, context) => {
       if (!context.isAuth) {

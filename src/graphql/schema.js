@@ -11,6 +11,7 @@ const Schema = gql`
 
   type AuthData {
     userName: String
+    userAvatar: String
     token: String
   }
 
