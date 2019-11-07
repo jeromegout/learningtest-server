@@ -1,5 +1,5 @@
 const Datastore = require("nedb-promises");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 

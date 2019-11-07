@@ -15,11 +15,6 @@ const Schema = gql`
     token: String
   }
 
-  type Query {
-    users: [User!]!
-    login(input: ConnectionInput): AuthData
-  }
-
   input ConnectionInput {
     email: String!
     password: String!
@@ -29,6 +24,11 @@ const Schema = gql`
     name: String
     email: String
     avatar: String
+  }
+
+  type Query {
+    users: [User!]!
+    login(input: ConnectionInput): AuthData
   }
 
   type Mutation {
