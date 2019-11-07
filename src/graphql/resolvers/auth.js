@@ -48,6 +48,19 @@ const resolvers = {
       }
       return { ...me, password: "" };
     },
+    user: async (_, { userId }, { db, isAuth }) => {
+      if (!isAuth) {
+        throw Error("Unauthenticated");
+      }
+      const existing = await db.findOne({ _id: userId });
+      if (!existing) {
+        throw Error("No such user exist in database");
+      }
+      return {
+        ...existing,
+        password: "",
+      };
+    },
   },
 
   Mutation: {

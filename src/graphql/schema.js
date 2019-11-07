@@ -30,6 +30,7 @@ const Schema = gql`
     users: [User!]!
     login(input: ConnectionInput): AuthData
     me: User!
+    user(userId: ID!): User!
   }
 
   type Mutation {
