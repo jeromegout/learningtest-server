@@ -13,9 +13,10 @@ It is defining all API and models.
     * [x] login
       * [x] return logged in user name and JWT token
     * [ ] changeUserPassword
-    * [ ] logout
+    * [ ] changeForgottenPassword
+    * [ ] logout (frontend)
 
-  * [ ] Classes
+  * [ ] Classe
   * [ ] Student
 
 * [x] install NeDB (nedb-promise acutally)
